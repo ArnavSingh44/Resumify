@@ -1,6 +1,6 @@
 const Resume = require('../models/resume');
 const generatePdfUtil = require('../utils/pdfGenerator');
-const { nanoid } = require('nanoid');
+const crypto = require('crypto');
 
 exports.createResume = async (req, res) => {
   try {
@@ -58,7 +58,7 @@ exports.updateResume = async (req, res) => {
 exports.toggleVisibility = async (req, res) => {
     try {
         const { isPublic } = req.body;
-        const publicId = isPublic ? nanoid(10) : null;
+        const publicId = isPublic ? crypto.randomUUID().replace(/-/g, '').slice(0, 10) : null;
         
         const resume = await Resume.updateVisibility(req.params.id, req.user.id, isPublic, publicId);
         if (!resume) return res.status(404).json({ msg: 'Resume not found or not authorized' });

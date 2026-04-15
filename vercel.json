@@ -17,12 +17,14 @@
       "dest": "server/server.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/(.*)",
+      "dest": "client/$1",
+      "check": true
     },
     {
       "src": "/(.*)",
       "status": 200,
-      "dest": "/index.html"
+      "dest": "client/index.html"
     }
   ]
 }

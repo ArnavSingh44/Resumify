@@ -42,7 +42,19 @@ const Login = () => {
           <p className="text-gray-400 font-medium">Elevate your career today.</p>
         </div>
 
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+
+          {/* ── Loading progress bar ── */}
+          {loading && (
+            <div className="absolute top-0 left-0 right-0 h-[3px] z-20 overflow-hidden rounded-t-[2.5rem]">
+              <div
+                className="h-full bg-gradient-to-r from-blue-400 via-blue-500 to-purple-500 rounded-full"
+                style={{ animation: 'progress-sweep 1.6s ease-in-out infinite', width: '45%' }}
+              />
+            </div>
+          )}
+
+          <div className="p-8 md:p-10">
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <Sparkles className="w-10 h-10" />
           </div>
@@ -78,25 +90,48 @@ const Login = () => {
                 className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none transition-all placeholder:text-gray-600"
               />
             </div>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={loading}
-              className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-blue-600/30 flex items-center justify-center group ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+              className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center group
+                ${loading ? 'opacity-80 cursor-not-allowed scale-[0.99]' : 'hover:scale-[1.02] active:scale-[0.98]'}`}
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2"></div>
+                <>
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3" />
+                  SIGNING IN…
+                </>
               ) : (
-                <LogIn className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
+                <>
+                  <LogIn className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
+                  SIGN IN
+                </>
               )}
-              {loading ? 'SIGNING IN...' : 'SIGN IN'}
             </button>
           </form>
           <p className="mt-8 text-center text-sm text-gray-500 font-medium">
-            New to Resumify? <a href="/register" className="text-blue-400 hover:text-blue-300 transition-colors font-bold underline underline-offset-4">Create account</a>
+            New to Resumify?{' '}
+            <a href="/register" className="text-blue-400 hover:text-blue-300 transition-colors font-bold underline underline-offset-4">Create account</a>
           </p>
+          </div>{/* end p-8 md:p-10 */}
         </div>
       </div>
+
+      {/* Status message below card */}
+      <div className={`mt-4 text-center text-sm font-medium transition-all duration-300 ${loading ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'}`}>
+        <span className="text-blue-400">⏳ Signing you in, please wait…</span>
+      </div>
     </div>
+
+    {/* Progress bar keyframe */}
+    <style>{`
+      @keyframes progress-sweep {
+        0%   { transform: translateX(-100%); }
+        50%  { transform: translateX(120%); }
+        100% { transform: translateX(280%); }
+      }
+    `}</style>
+  </div>
   );
 };
 
